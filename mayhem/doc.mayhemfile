@@ -1,0 +1,7 @@
+project: deno-doc
+target: doc
+
+cmds:
+  - cmd: /doc
+  - cmd: /doc_no_inst @@
+    libfuzzer: false
