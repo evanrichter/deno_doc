@@ -1,0 +1,29 @@
+[package]
+name = "deno_doc-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2021"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+deno_graph = "0.28"
+futures = "0.3.21"
+
+[dependencies.deno_doc]
+path = ".."
+
+# Prevent this from interfering with workspaces
+[workspace]
+members = ["."]
+
+[[bin]]
+name = "doc"
+path = "fuzz_targets/doc.rs"
+test = false
+doc = false
+
+[profile.release]
+debug = true
