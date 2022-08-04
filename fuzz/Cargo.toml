@@ -9,7 +9,8 @@ cargo-fuzz = true
 
 [dependencies]
 libfuzzer-sys = "0.4"
-deno_graph = "0.28"
+deno_ast = "0.17.0"
+deno_graph = "0.29.0"
 futures = "0.3.21"
 
 [dependencies.deno_doc]
