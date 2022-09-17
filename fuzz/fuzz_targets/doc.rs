@@ -8,7 +8,8 @@ use deno_graph::create_type_graph;
 use deno_graph::source::LoadFuture;
 use deno_graph::source::LoadResponse;
 use deno_graph::source::Loader;
-use deno_graph::DefaultSourceParser;
+use deno_graph::CapturingModuleAnalyzer;
+use deno_graph::DefaultParsedSourceStore;
 use deno_graph::ModuleSpecifier;
 use futures::executor::block_on;
 use futures::future;
@@ -17,7 +18,8 @@ fuzz_target!(|source: &str| {
   let mut loader = SourceFileLoader { source };
 
   let future = async move {
-    let source_parser = DefaultSourceParser::new();
+    let source_parser = DefaultParsedSourceStore::default();
+    let analyzer = CapturingModuleAnalyzer::default();
     let graph = create_type_graph(
       vec!["file://fuzz.ts".try_into().unwrap()],
       false,
@@ -25,7 +27,7 @@ fuzz_target!(|source: &str| {
       &mut loader,
       None,
       None,
-      Some(&source_parser),
+      Some(&analyzer),
       None,
     )
     .await;
